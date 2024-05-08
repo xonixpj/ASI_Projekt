@@ -4,18 +4,12 @@ generated using Kedro 0.19.4
 """
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from autogluon.tabular import TabularPredictor
 
 
-def train_model(X_train, y_train) -> Sequential:
-    model = Sequential([
-        Dense(64, activation='relu', input_shape=(X_train.shape[1],)),
-        Dense(1, activation='sigmoid')
-    ])
+def train_model(train_data):
+    # Usuń wiersze z niezdefiniowanymi etykietami
+    train_data = train_data.dropna(subset=['RainTomorrow'])
 
-    model.compile(optimizer='adam',
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
-
-    model.fit(X_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
-    xD = model
-    return xD
+    predictor = TabularPredictor(label='RainTomorrow', problem_type='binary').fit(train_data)
+    return predictor
