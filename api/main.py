@@ -16,4 +16,5 @@ def get_prediction(request: WhetherPredictionRequest):
 
 
 if __name__ == "__main__":
+    print("xD")
     uvicorn.run(app, host="0.0.0.0", port=12345)
