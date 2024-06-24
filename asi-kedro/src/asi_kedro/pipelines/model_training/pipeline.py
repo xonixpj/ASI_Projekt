@@ -1,20 +1,8 @@
-"""
-This is a boilerplate pipeline 'model_training'
-generated using Kedro 0.19.4
-"""
-
-from kedro.pipeline import Pipeline, pipeline, node
-
-from ..data_processing.nodes import load_data, split_data
-from ..model_evaluation.nodes import evaluate_model
-from .nodes import train_model
+from kedro.pipeline import Pipeline, node
+from ..model_training.nodes import train_model, load_train_data
 
 def create_pipeline(**kwargs) -> Pipeline:
-    return pipeline([
-        node(
-            func=train_model,
-            inputs="train_data",
-            outputs="predictor",
-            name="train_model_node",
-        ),
+    return Pipeline([
+        node(load_train_data, inputs=None, outputs="train_data", name="load_train_data_node"),
+        node(train_model, inputs="train_data", outputs="predictor", name="train_model_node"),
     ])

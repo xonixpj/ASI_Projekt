@@ -1,6 +1,14 @@
 from autogluon.tabular import TabularPredictor
 import wandb
+import sqlite3
+import pandas as pd
 
+def load_train_data():
+    conn = sqlite3.connect('weatherAUS.db')
+    query = "SELECT * FROM train_data"
+    train_data = pd.read_sql(query, conn)
+    conn.close()
+    return train_data
 
 def train_model(train_data):
     train_data = train_data.dropna(subset=['RainTomorrow'])
@@ -32,3 +40,5 @@ def train_model(train_data):
     wandb.log(loggable_info)
 
     return predictor
+
+
