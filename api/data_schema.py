@@ -6,6 +6,7 @@ class WhetherPredictionResponse(BaseModel):
 
 
 class WhetherPredictionRequest(BaseModel):
+    model: str
     selected_city: str
     min_temp: float
     max_temp: float
