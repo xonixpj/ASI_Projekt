@@ -5,6 +5,9 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+    volumes:
+      - ./asi-kedro:/asi-kedro
+      - ./ml_models:/ml_models
     ports:
       - "12345:12345"
 
