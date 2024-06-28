@@ -1,3 +1,4 @@
+import datetime
 from time import strftime
 
 import streamlit as st
@@ -49,6 +50,7 @@ def main():
             st.title("Czy jutro będzie padać?")
 
         with left:
+            date_input = st.date_input("Data", value=datetime.date.today())
             selected_city = st.selectbox("Wybierz miasto", cities, index=cities.index(default_city))
             min_temp = st.number_input("MinTemp", value=0.0)
             max_temp = st.number_input("MaxTemp", value=0.0)
@@ -75,6 +77,7 @@ def main():
             cloud_3pm = st.slider("Cloud3pm", min_value=-1, max_value=8, value=0)
             temp_9am = st.number_input("Temp9am", value=0.0)
             temp_3pm = st.number_input("Temp3pm", value=0.0)
+            rain_today = st.selectbox("RainToday", options=["Yes", "No"], index=1)
 
         with mid:
             st.write("Możesz wybrac model do przewidywania pogody")
@@ -85,26 +88,28 @@ def main():
 
             data = {
                 "model": model_selected,
-                "selected_city": selected_city,
-                "min_temp": min_temp,
-                "max_temp": max_temp,
-                "rainfall": rainfall,
-                "evaporation": evaporation,
-                "sunshine": sunshine,
-                "wind_gust_dir": wind_gust_dir,
-                "wind_gust_speed": wind_gust_speed,
-                "wind_dir_9am": wind_dir_9am,
-                "wind_dir_3pm": wind_dir_3pm,
-                "wind_speed_9am": wind_speed_9am,
-                "wind_speed_3pm": wind_speed_3pm,
-                "humidity_9am": humidity_9am,
-                "humidity_3pm": humidity_3pm,
-                "pressure_9am": pressure_9am,
-                "pressure_3pm": pressure_3pm,
-                "cloud_9am": cloud_9am,
-                "cloud_3pm": cloud_3pm,
-                "temp_9am": temp_9am,
-                "temp_3pm": temp_3pm
+                "Date": date_input.strftime("%Y-%m-%d"),
+                "Location": selected_city,
+                "MinTemp": min_temp,
+                "MaxTemp": max_temp,
+                "Rainfall": rainfall,
+                "Evaporation": evaporation,
+                "Sunshine": sunshine,
+                "WindGustDir": wind_gust_dir,
+                "WindGustSpeed": wind_gust_speed,
+                "WindDir9am": wind_dir_9am,
+                "WindDir3pm": wind_dir_3pm,
+                "WindSpeed9am": wind_speed_9am,
+                "WindSpeed3pm": wind_speed_3pm,
+                "Humidity9am": humidity_9am,
+                "Humidity3pm": humidity_3pm,
+                "Pressure9am": pressure_9am,
+                "Pressure3pm": pressure_3pm,
+                "Cloud9am": cloud_9am,
+                "Cloud3pm": cloud_3pm,
+                "Temp9am": temp_9am,
+                "Temp3pm": temp_3pm,
+                "RainToday": rain_today
             }
 
             if st.button("Przewiduj"):
