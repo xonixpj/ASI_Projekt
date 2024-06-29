@@ -2,6 +2,7 @@ from autogluon.tabular import TabularPredictor
 import wandb
 import sqlite3
 import pandas as pd
+import pickle
 
 def load_train_data():
     conn = sqlite3.connect('weatherAUS.db')
@@ -13,7 +14,7 @@ def load_train_data():
 def train_model(train_data):
     train_data = train_data.dropna(subset=['RainTomorrow'])
 
-    wandb.init(project='weather-prediction', entity='your_wandb_username')
+    wandb.init(project='weather-prediction')
 
     # Trening modelu
     predictor = TabularPredictor(label='RainTomorrow', problem_type='binary').fit(train_data)
@@ -39,6 +40,8 @@ def train_model(train_data):
     # Logowanie metryk
     wandb.log(loggable_info)
 
-    return predictor
+    # Zapisujemy model do pliku .pkl
+    with open("../ml_models/predictor.pkl", "wb") as f:
+        pickle.dump(predictor, f)
 
-
+    return "../ml_models/predictor.pkl"

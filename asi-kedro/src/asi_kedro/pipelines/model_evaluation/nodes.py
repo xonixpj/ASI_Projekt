@@ -2,7 +2,6 @@ import pickle
 import sqlite3
 import pandas as pd
 from sklearn.metrics import f1_score, recall_score
-from tensorflow.python.keras.engine.sequential import Sequential
 import wandb
 
 def load_test_data():
@@ -11,6 +10,11 @@ def load_test_data():
     test_data = pd.read_sql(query, conn)
     conn.close()
     return test_data
+
+def load_predictor(predictor_path):
+    with open(predictor_path, "rb") as f:
+        predictor = pickle.load(f)
+    return predictor
 
 def evaluate_model(predictor, test_data):
     # Usuń wiersze z brakującymi wartościami w kolumnie RainTomorrow
@@ -34,5 +38,3 @@ def compare_and_select_best_model(evaluation_results, predictor):
         pickle.dump(best_model, f)
 
     return best_model_path
-
-
