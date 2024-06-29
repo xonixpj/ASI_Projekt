@@ -189,9 +189,9 @@ def main():
                 result = send_save(data)
                 st.write(result)
 
-            if st.button("Wczytaj dane"):
-                response = requests.get("http://fastapi:12345/read")
-                st.write(response.text)
+            # if st.button("Wczytaj dane"):
+            #     response = requests.get("http://fastapi:12345/read")
+            #     st.write(response.text)
 
     elif menu == "Trenuj model":
         st.title("Trenowanie modelu")
